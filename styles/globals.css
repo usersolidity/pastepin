@@ -1,3 +1,13 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Tiptap */
+.ProseMirror {
+  outline: none;
+}
+
+/* https://www.tiptap.dev/api/extensions/dropcursor/ */
+.ProseMirror > * + * {
+  margin-top: 0.75em;
+}
+.ProseMirror > img {
+  max-width: 100%;
+  height: auto;
+}
