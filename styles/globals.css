@@ -1,6 +1,8 @@
 /* Tiptap */
 .ProseMirror {
   outline: none;
+  min-height: calc(100vh - 4rem);
+  padding: 2rem;
 }
 
 /* https://www.tiptap.dev/api/extensions/dropcursor/ */
