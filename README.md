@@ -10,7 +10,7 @@
 
 - [x] look at existing pastebins for features
 - [x] list of all pins
-- [ ] publish button
+- [x] publish button
 - [ ] placeholder tutorial
 - [ ] add (inline?) files
 - [ ] status details

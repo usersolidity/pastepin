@@ -1,7 +1,10 @@
-import { EditorContent, useEditor } from '@tiptap/react'
+import { EditorContent, Extension, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
+import { useRouter } from 'next/dist/client/router'
 import { useCallback, useEffect } from 'react'
+import toast, { Toaster } from 'react-hot-toast'
 import { Web3Storage } from 'web3.storage'
+import { baseUrl } from '../utils'
 
 const client = new Web3Storage({
   token: process.env.NEXT_PUBLIC_WEB3_TOKEN as string,
@@ -15,34 +18,61 @@ interface Props {
   editable?: boolean
 }
 
-const Tiptap = (
+export const DisableModEnter = Extension.create({
+  name: 'disable-mod-enter',
+  addKeyboardShortcuts() {
+    return {
+      'Mod-Enter': () => true,
+    }
+  },
+})
+
+export default function Tiptap(
   { content, editable }: Props = { content: DEFAULT_CONTENT, editable: true },
-) => {
+) {
+  const router = useRouter()
   const editor = useEditor({
-    extensions: [StarterKit],
+    extensions: [StarterKit, DisableModEnter],
     content,
     editable,
+    autofocus: 'start',
   })
 
-  const onSubmit = useCallback(
+  const onSubmit = useCallback(async () => {
+    if (!editor) return
+    const html = editor.getHTML()
+    const blob = new Blob([html], { type: 'text/html' })
+    console.log('storing')
+    const cid = await client.put([new File([blob], 'title.html')])
+    console.log('stored files with cid:', cid)
+
+    const path = `/${cid}`
+    await navigator.clipboard.writeText(baseUrl + path)
+    toast.success('Copied Url')
+    router.push(path)
+  }, [editor, router])
+
+  const onKeydown = useCallback(
     async (e: KeyboardEvent) => {
-      if (e.metaKey && e.key === 'Enter' && editor) {
-        const html = editor.getHTML()
-        const blob = new Blob([html], { type: 'text/html' })
-        console.log('storing')
-        const cid = await client.put([new File([blob], 'title.html')])
-        console.log('stored files with cid:', cid)
+      if (e.metaKey && e.key === 'Enter') {
+        e.preventDefault()
+        e.stopPropagation()
+        onSubmit()
       }
     },
-    [editor],
+    [onSubmit],
   )
 
   useEffect(() => {
-    document.addEventListener('keydown', onSubmit)
-    return () => document.removeEventListener('keydown', onSubmit)
+    document.addEventListener('keydown', onKeydown)
+    return () => document.removeEventListener('keydown', onKeydown)
   })
 
-  return <EditorContent editor={editor} />
+  return (
+    <section>
+      <Toaster />
+      <button onClick={onSubmit}>Share</button>
+      <EditorContent editor={editor} />
+    </section>
+  )
 }
-
-export default Tiptap
