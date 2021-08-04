@@ -38,7 +38,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     const content = await file.text()
 
     return {
-      props: { cid: file.cid, content },
+      props: { cid: params.cid, content },
     }
   } catch (error) {
     console.log('Error in getStaticProps:', error)
