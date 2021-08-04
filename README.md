@@ -9,7 +9,7 @@
 # Todos
 
 - [x] look at existing pastebins for features
-- [ ] list of all pins
+- [x] list of all pins
 - [ ] publish button
 - [ ] placeholder tutorial
 - [ ] add (inline?) files

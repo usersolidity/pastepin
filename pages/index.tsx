@@ -1,9 +1,12 @@
+import React from 'react'
+import List from '../components/List'
 import Tiptap from '../components/Tiptap'
 
 export default function Home() {
   return (
-    <div>
+    <main>
       <Tiptap />
+      <List />
       {/* <input
         className=""
         type="file"
@@ -22,6 +25,6 @@ export default function Home() {
           }
         }}
       /> */}
-    </div>
+    </main>
   )
 }

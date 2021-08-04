@@ -1,8 +1,12 @@
+main {
+  min-height: calc(100vh - 4rem);
+  padding: 2rem;
+}
+
 /* Tiptap */
 .ProseMirror {
   outline: none;
-  min-height: calc(100vh - 4rem);
-  padding: 2rem;
+  min-height: 70vh;
 }
 
 /* https://www.tiptap.dev/api/extensions/dropcursor/ */
