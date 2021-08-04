@@ -1,5 +1,6 @@
 import { formatDistanceToNow } from 'date-fns'
-import { useAtom, atom } from 'jotai'
+import { atom, useAtom } from 'jotai'
+import Link from 'next/link'
 import { useCallback, useEffect } from 'react'
 import { Upload, Web3Storage } from 'web3.storage'
 
@@ -32,7 +33,11 @@ export default function List() {
       {pins ? (
         pins.map((pin) => (
           <div key={pin.cid}>
-            <h3>{pin.name}</h3>
+            <Link href={`/${pin.cid}`}>
+              <a>
+                <h3>{pin.name}</h3>
+              </a>
+            </Link>
             <p>
               {formatDistanceToNow(new Date(pin.created), {
                 addSuffix: true,

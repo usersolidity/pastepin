@@ -11,13 +11,18 @@
 - [x] look at existing pastebins for features
 - [x] list of all pins
 - [x] publish button
-- [ ] placeholder tutorial
-- [ ] add (inline?) files
-- [ ] status details
+- [x] status details
+- [ ] add additional (inline?) files
 - [ ] link to a gateway
+- [ ] store content as content.html
+- [ ] https://github.com/wooorm/lowlight
 - [ ] design (similar to mirror? or sth brutalist?)
+  - [ ] tutorial (placeholder)
   - [ ] 404 page
   - [ ] favicon
   - [ ] share img
 - [ ] 1st line enforce title
-- [ ] sign in w/ eth & mint nft pin
+- [ ] sign in w/ eth & sign content to save to your account (https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/verify)
+  - How to sign/verify?
+  - How to query user's pins?
+- [ ] edit (fork) published pin

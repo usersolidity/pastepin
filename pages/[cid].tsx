@@ -1,16 +1,19 @@
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { Web3Storage } from 'web3.storage'
+import Status from '../components/Status'
 import Tiptap from '../components/Tiptap'
 
 interface Props {
+  cid: string
   content: string
 }
 
 export default function Pin(props: Props) {
   return (
-    <div>
+    <main>
+      <Status cid={props.cid} />
       <Tiptap content={props.content} editable={false} />
-    </div>
+    </main>
   )
 }
 
@@ -30,10 +33,12 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     console.log('Files:', files)
 
     const file = files.find((file) => file.name.includes('html'))
-    const content = await file?.text()
-    if (!content) throw new Error("Couldn't get the content")
+    if (!file) throw new Error("Couldn't find the file")
+
+    const content = await file.text()
+
     return {
-      props: { content },
+      props: { cid: file.cid, content },
     }
   } catch (error) {
     console.log('Error in getStaticProps:', error)
