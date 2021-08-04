@@ -6,7 +6,7 @@ interface Props {
   content: string
 }
 
-export default function Post(props: Props) {
+export default function Pin(props: Props) {
   return (
     <div>
       <Tiptap content={props.content} editable={false} />
