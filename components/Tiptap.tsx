@@ -43,7 +43,7 @@ export default function Tiptap(
     const html = editor.getHTML()
     const blob = new Blob([html], { type: 'text/html' })
     console.log('storing')
-    const cid = await client.put([new File([blob], 'title.html')])
+    const cid = await client.put([new File([blob], 'content.html')])
     console.log('stored files with cid:', cid)
 
     const path = `/${cid}`

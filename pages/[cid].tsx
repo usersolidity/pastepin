@@ -32,7 +32,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     const files = await res.files()
     console.log('Files:', files)
 
-    const file = files.find((file) => file.name.includes('html'))
+    const file = files.find((file) => file.name == 'content.html')
     if (!file) throw new Error("Couldn't find the file")
 
     const content = await file.text()

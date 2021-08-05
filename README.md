@@ -12,11 +12,13 @@
 - [x] list of all pins
 - [x] publish button
 - [x] status details
+- [x] link to a gateway
+- [x] store content as content.html
 - [ ] add additional (inline?) files
-- [ ] link to a gateway
-- [ ] store content as content.html
+  - images
+  - generic files
 - [ ] https://github.com/wooorm/lowlight
-- [ ] design (similar to mirror? or sth brutalist?)
+- [ ] ux & design (similar to mirror? or sth brutalist?)
   - [ ] tutorial (placeholder)
   - [ ] 404 page
   - [ ] favicon
