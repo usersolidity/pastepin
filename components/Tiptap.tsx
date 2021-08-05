@@ -27,15 +27,16 @@ export const DisableModEnter = Extension.create({
   },
 })
 
-export default function Tiptap(
-  { content, editable }: Props = { content: DEFAULT_CONTENT, editable: true },
-) {
+export default function Tiptap({
+  content = DEFAULT_CONTENT,
+  editable = true,
+}: Props) {
   const router = useRouter()
   const editor = useEditor({
     extensions: [StarterKit, DisableModEnter],
     content,
     editable,
-    autofocus: 'start',
+    autofocus: 'end',
   })
 
   const onSubmit = useCallback(async () => {
