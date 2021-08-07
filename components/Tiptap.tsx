@@ -2,9 +2,12 @@ import { EditorContent, Extension, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import { useRouter } from 'next/dist/client/router'
 import { useCallback, useEffect } from 'react'
+import { useDropzone } from 'react-dropzone'
 import toast, { Toaster } from 'react-hot-toast'
 import { Web3Storage } from 'web3.storage'
 import { baseUrl } from '../utils'
+
+export const CONTENT_FILE_NAME = 'content.html'
 
 const client = new Web3Storage({
   token: process.env.NEXT_PUBLIC_WEB3_TOKEN as string,
@@ -33,25 +36,32 @@ export default function Tiptap({
 }: Props) {
   const router = useRouter()
   const editor = useEditor({
-    extensions: [StarterKit, DisableModEnter],
+    extensions: [StarterKit.configure({ dropcursor: false }), DisableModEnter],
     content,
     editable,
     autofocus: 'end',
   })
+
+  const { getRootProps, getInputProps, isDragActive, acceptedFiles } =
+    useDropzone({
+      noClick: true,
+      noKeyboard: true,
+    })
 
   const onSubmit = useCallback(async () => {
     if (!editor) return
     const html = editor.getHTML()
     const blob = new Blob([html], { type: 'text/html' })
     console.log('storing')
-    const cid = await client.put([new File([blob], 'content.html')])
+    const files = [...acceptedFiles, new File([blob], CONTENT_FILE_NAME)]
+    const cid = await client.put(files)
     console.log('stored files with cid:', cid)
 
     const path = `/${cid}`
     await navigator.clipboard.writeText(baseUrl + path)
     toast.success('Copied Url')
     router.push(path)
-  }, [editor, router])
+  }, [acceptedFiles, editor, router])
 
   const onKeydown = useCallback(
     async (e: KeyboardEvent) => {
@@ -69,11 +79,21 @@ export default function Tiptap({
     return () => document.removeEventListener('keydown', onKeydown)
   })
 
+  const files = acceptedFiles.map((file, i) => (
+    <li key={i}>
+      {file.name} - {file.size} bytes — {file.lastModified} modified —{' '}
+      {file.type} type
+    </li>
+  ))
+
   return (
-    <section>
+    <section {...getRootProps()}>
+      <input {...getInputProps()} />
+      {isDragActive && <div>Come to papa</div>}
       <Toaster />
       <button onClick={onSubmit}>Share</button>
       <EditorContent editor={editor} />
+      <ul>{files}</ul>
     </section>
   )
 }

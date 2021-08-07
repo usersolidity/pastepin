@@ -16,10 +16,9 @@
 - [x] status details
 - [x] link to a gateway
 - [x] store content as content.html
-- [ ] add additional (inline?) files
-  - images
-  - generic files
+- [x] add additional files
 - [ ] design (similar to mirror? or sth brutalist?)
+- [ ] all pins placeholder skeleton while loading
 - [ ] instant ux
 - [ ] tutorial (placeholder)
 - [ ] 404 page

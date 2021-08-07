@@ -1,26 +1,42 @@
 import { GetStaticPaths, GetStaticProps } from 'next'
-import { Web3Storage } from 'web3.storage'
+import { useEffect, useState } from 'react'
+import { Web3File, Web3Storage } from 'web3.storage'
 import Status from '../components/Status'
-import Tiptap from '../components/Tiptap'
-
-interface Props {
-  cid: string
-  content: string
-}
-
-export default function Pin(props: Props) {
-  return (
-    <main>
-      <Status cid={props.cid} />
-      <Tiptap content={props.content} editable={false} />
-    </main>
-  )
-}
+import Tiptap, { CONTENT_FILE_NAME } from '../components/Tiptap'
 
 const client = new Web3Storage({
   token: process.env.NEXT_PUBLIC_WEB3_TOKEN as string,
 })
 
+interface Props {
+  pinCid: string
+  content: string
+}
+
+export default function Pin({ pinCid, content }: Props) {
+  const [attachments, setAttachments] = useState<Web3File[] | null>(null)
+
+  useEffect(() => {
+    const getAttachments = async () => {
+      const res = await client.get(pinCid)
+      if (!res) return
+      const files = await res.files()
+      setAttachments(files.filter((f) => f.name !== CONTENT_FILE_NAME))
+    }
+    getAttachments()
+  }, [pinCid])
+
+  console.log('a', attachments)
+
+  return (
+    <main>
+      <Status cid={pinCid} />
+      <Tiptap content={content} editable={false} />
+    </main>
+  )
+}
+
+// only fetching the content here, attachements are retrieved client side
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   try {
     if (!params || typeof params.cid !== 'string')
@@ -32,13 +48,16 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     const files = await res.files()
     console.log('Files:', files)
 
-    const file = files.find((file) => file.name == 'content.html')
+    const file = files.find((file) => file.name == CONTENT_FILE_NAME)
     if (!file) throw new Error("Couldn't find the file")
 
     const content = await file.text()
 
     return {
-      props: { cid: params.cid, content },
+      props: {
+        pinCid: params.cid,
+        content,
+      },
     }
   } catch (error) {
     console.log('Error in getStaticProps:', error)
