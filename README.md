@@ -23,11 +23,12 @@
 - [ ] tutorial (placeholder)
 - [ ] 404 page
 - [ ] favicon
-- [ ] share img
+- [ ] social share img
 - [ ] https://github.com/wooorm/lowlight
 - [ ] 1st line enforce title
 - [ ] sign in w/ eth & sign content to save to your account (https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/verify)
   - How to sign/verify?
   - How to query user's pins?
+- [ ] Ceramic login?
 - [ ] edit (fork) published pin
 - [ ] write readme
