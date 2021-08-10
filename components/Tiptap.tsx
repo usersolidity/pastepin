@@ -5,7 +5,7 @@ import { useCallback, useEffect } from 'react'
 import { useDropzone } from 'react-dropzone'
 import toast, { Toaster } from 'react-hot-toast'
 import { Web3Storage } from 'web3.storage'
-import { baseUrl } from '../utils'
+import { baseUrl } from '../lib'
 
 export const CONTENT_FILE_NAME = 'content.html'
 
