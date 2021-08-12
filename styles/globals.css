@@ -1,6 +1,24 @@
-main {
+body {
   min-height: calc(100vh - 4rem);
   padding: 2rem;
+}
+
+.Editor {
+  position: relative;
+}
+
+.Floating {
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 100px;
+}
+
+.Button {
+  border-radius: 30px;
+  min-width: 200px;
+  padding: 10px 0;
 }
 
 /* Tiptap */

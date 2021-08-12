@@ -17,18 +17,16 @@
 - [x] link to a gateway
 - [x] store content as content.html
 - [x] add additional files
+- [x] sign/verify?
 - [ ] design (similar to mirror? or sth brutalist?)
 - [ ] all pins placeholder skeleton while loading
 - [ ] instant ux
 - [ ] tutorial (placeholder)
-- [ ] 404 page
+- [ ] 404 page (redirect)
 - [ ] favicon
 - [ ] social share img
 - [ ] https://github.com/wooorm/lowlight
 - [ ] 1st line enforce title
-- [ ] sign in w/ eth & sign content to save to your account (https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/verify)
-  - How to sign/verify?
-  - How to query user's pins?
-- [ ] Ceramic login?
 - [ ] edit (fork) published pin
 - [ ] write readme
+- [ ] How to query user's pins?
