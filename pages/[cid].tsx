@@ -2,7 +2,7 @@ import { GetStaticPaths, GetStaticProps } from 'next'
 import { useEffect, useState } from 'react'
 import { Web3File, Web3Storage } from 'web3.storage'
 import Status from '../components/Status'
-import Tiptap, { CONTENT_FILE_NAME } from '../components/Tiptap'
+import Pin from '../components/Pin'
 
 const client = new Web3Storage({
   token: process.env.NEXT_PUBLIC_WEB3_TOKEN as string,
@@ -13,7 +13,7 @@ interface Props {
   content: string
 }
 
-export default function Pin({ pinCid, content }: Props) {
+export default function PinPage({ pinCid, content }: Props) {
   const [attachments, setAttachments] = useState<Web3File[] | null>(null)
 
   useEffect(() => {
@@ -21,7 +21,7 @@ export default function Pin({ pinCid, content }: Props) {
       const res = await client.get(pinCid)
       if (!res) return
       const files = await res.files()
-      setAttachments(files.filter((f) => f.name !== CONTENT_FILE_NAME))
+      // setAttachments(files.filter((f) => f.name !== CONTENT_FILE_NAME))
     }
     getAttachments()
   }, [pinCid])
@@ -31,7 +31,7 @@ export default function Pin({ pinCid, content }: Props) {
   return (
     <main>
       <Status cid={pinCid} />
-      <Tiptap content={content} editable={false} />
+      {/* <Pin  /> */}
     </main>
   )
 }

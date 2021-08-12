@@ -21,12 +21,14 @@
 - [x] https://github.com/wooorm/lowlight
 - [x] 1st line enforce title
 - [x] append files onchange
+- [x] maybe just use textare as editor and store as markdown?
+- [ ] preview page
+- [ ] make [cid] work
 - [ ] design (similar to mirror? or sth brutalist?)
 - [ ] files showcase (+ ability to remove)
 - [ ] tutorial (placeholder)
 - [ ] all pins placeholder skeleton while loading
 - [ ] instant ux https://consensys.net/blog/developers/how-to-fetch-and-update-data-from-ethereum-with-react-and-swr/
-- [ ] 404 page (redirect)
 - [ ] favicon
 - [ ] social share img
 - [ ] edit (fork) published pin
