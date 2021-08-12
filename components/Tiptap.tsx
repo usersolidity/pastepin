@@ -58,12 +58,17 @@ export default function Tiptap({ content = DEFAULT_CONTENT }: Props) {
     'editing',
   )
 
-  // dropzone
-  const { getRootProps, getInputProps, isDragActive, acceptedFiles } =
-    useDropzone({
-      noClick: true,
-      noKeyboard: true,
-    })
+  // react-dropzone
+  const [acceptedFiles, setAcceptedFiles] = useState<File[]>([])
+  const onDrop = useCallback((acceptedFiles) => {
+    // @ts-ignore
+    setAcceptedFiles((prev) => [...prev, ...acceptedFiles])
+  }, [])
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    noClick: true,
+    noKeyboard: true,
+    onDrop,
+  })
 
   // update state
   useEffect(() => {
@@ -131,13 +136,6 @@ export default function Tiptap({ content = DEFAULT_CONTENT }: Props) {
     return () => document.removeEventListener('keydown', onKeydown)
   })
 
-  const files = acceptedFiles.map((file, i) => (
-    <li key={i}>
-      {file.name} - {file.size} bytes — {file.lastModified} modified —{' '}
-      {file.type} type
-    </li>
-  ))
-
   return (
     <section {...getRootProps()} className="editor">
       <input {...getInputProps()} />
@@ -168,7 +166,14 @@ export default function Tiptap({ content = DEFAULT_CONTENT }: Props) {
       </div>
 
       <EditorContent editor={editor} />
-      <ul>{files}</ul>
+      <ul>
+        {acceptedFiles.map((file, i) => (
+          <li key={i}>
+            {file.name} - {file.size} bytes — {file.lastModified} modified —{' '}
+            {file.type} type
+          </li>
+        ))}
+      </ul>
     </section>
   )
 }
