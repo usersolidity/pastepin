@@ -10,8 +10,7 @@ import { baseUrl } from '../lib'
 export const CONTENT_FILE_NAME = 'content.html'
 export const SIGNATURE_FILE_NAME = 'signature.json'
 
-const DEFAULT_CONTENT =
-  '<h1>Heading 1</h1><h2>Heading 2</h2><h3>Heading 3</h3><h4>Heading 4</h4><h5>Heading 5</h5><h6>Heading 6<br></h6>'
+const DEFAULT_CONTENT = ''
 
 const client = new Web3Storage({
   token: process.env.NEXT_PUBLIC_WEB3_TOKEN as string,
@@ -31,7 +30,7 @@ export default function Tiptap({ content = DEFAULT_CONTENT }: Props) {
   const editor = useEditor({
     extensions: [StarterKit.configure({ dropcursor: false }), DisableModEnter],
     content,
-    autofocus: 'end',
+    autofocus: false,
   })
   // turns false while publishing
   const [state, setState] = useState<'editing' | 'publishing' | 'redirecting'>(
@@ -77,7 +76,6 @@ export default function Tiptap({ content = DEFAULT_CONTENT }: Props) {
 
         files.push(new File([signatureBlob], SIGNATURE_FILE_NAME))
       }
-
       // upload files using web3.storage
       console.log('storing', files)
       const cid = await client.put(files)
@@ -101,10 +99,26 @@ export default function Tiptap({ content = DEFAULT_CONTENT }: Props) {
         e.preventDefault()
         e.stopPropagation()
         onSubmit(false)
+      } else if (
+        (e.key === 'Backspace' || e.key === 'ArrowUp') &&
+        editor &&
+        editor.isFocused
+      ) {
+        const head = editor.state.selection.$head
+        const anchor = editor.state.selection.$anchor
+        if (head.pos === 1 && anchor.pos === 1) {
+          e.preventDefault()
+          getTitle()?.focus()
+        }
       }
+      // focus downarrow
+      //  else if (getTitle()?.focu) {
+      // }
     },
-    [onSubmit],
+    [editor, onSubmit],
   )
+
+  console.log(editor?.state.selection)
 
   // add/remove keydown listener
   useEffect(() => {
@@ -148,6 +162,17 @@ export default function Tiptap({ content = DEFAULT_CONTENT }: Props) {
         {state === 'redirecting' && <button>Copy Url</button>}
       </div>
 
+      <input
+        id="title"
+        placeholder="Title"
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' && !e.metaKey) {
+            e.preventDefault()
+            console.log('focusing')
+            editor?.commands.focus('end')
+          }
+        }}
+      />
       <EditorContent editor={editor} />
       <ul>{files}</ul>
     </section>
@@ -162,3 +187,6 @@ const DisableModEnter = Extension.create({
     }
   },
 })
+
+const getTitle = (): HTMLInputElement | undefined =>
+  document.querySelector('#title') as HTMLInputElement

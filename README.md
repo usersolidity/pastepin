@@ -18,15 +18,16 @@
 - [x] store content as content.html
 - [x] add additional files
 - [x] sign/verify?
+- [ ] 1st line enforce title
+- [ ] tutorial (placeholder)
+- [ ] append files onchange
 - [ ] design (similar to mirror? or sth brutalist?)
 - [ ] all pins placeholder skeleton while loading
 - [ ] instant ux
-- [ ] tutorial (placeholder)
 - [ ] 404 page (redirect)
 - [ ] favicon
 - [ ] social share img
 - [ ] https://github.com/wooorm/lowlight
-- [ ] 1st line enforce title
 - [ ] edit (fork) published pin
 - [ ] write readme
 - [ ] How to query user's pins?

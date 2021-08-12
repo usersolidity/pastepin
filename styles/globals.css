@@ -3,6 +3,20 @@ body {
   padding: 2rem;
 }
 
+#title {
+  font-size: 3rem;
+  background-color: inherit;
+  padding: 0;
+  outline: none;
+  border: none;
+  font-weight: 700;
+
+  /* h1 */
+  line-height: 1;
+  color: var(--nc-tx-1);
+  padding-top: 0.875rem;
+}
+
 .Editor {
   position: relative;
 }
@@ -21,12 +35,11 @@ body {
   padding: 10px 0;
 }
 
-/* Tiptap */
+/* TipTap Editor */
 .ProseMirror {
   outline: none;
   min-height: 70vh;
 }
-
 /* https://www.tiptap.dev/api/extensions/dropcursor/ */
 .ProseMirror > * + * {
   margin-top: 0.75em;
