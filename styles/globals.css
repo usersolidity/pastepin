@@ -3,19 +3,19 @@ body {
   padding: 2rem;
 }
 
-.Editor {
+.editor {
   position: relative;
 }
 
-.Floating {
+.floating {
   position: fixed;
   z-index: 1;
   left: 50%;
   transform: translateX(-50%);
-  bottom: 100px;
+  bottom: 20px;
 }
 
-.Button {
+.button {
   border-radius: 30px;
   min-width: 200px;
   padding: 10px 0;

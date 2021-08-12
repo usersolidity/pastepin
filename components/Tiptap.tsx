@@ -139,27 +139,27 @@ export default function Tiptap({ content = DEFAULT_CONTENT }: Props) {
   ))
 
   return (
-    <section {...getRootProps()} className="Editor">
+    <section {...getRootProps()} className="editor">
       <input {...getInputProps()} />
       {isDragActive && <div>Come to papa</div>}
 
-      <div className="Floating">
+      <div className="floating">
         {state === 'editing' && (
           <button
             onClick={() => {
               setState('publishing')
             }}
-            className="Button Floating"
+            className="button floating"
           >
             Publish
           </button>
         )}
         {state === 'publishing' && (
-          <div className="Floating">
-            <button onClick={() => onSubmit(true)} className="Publish">
+          <div className="floating">
+            <button onClick={() => onSubmit(true)} className="publish">
               Sign using Ethereum
             </button>
-            <button onClick={() => onSubmit(false)} className="Publish">
+            <button onClick={() => onSubmit(false)} className="publish">
               Publish Anonymously
             </button>
           </div>
