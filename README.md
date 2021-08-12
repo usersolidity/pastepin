@@ -18,16 +18,16 @@
 - [x] store content as content.html
 - [x] add additional files
 - [x] sign/verify?
+- [x] https://github.com/wooorm/lowlight
 - [ ] 1st line enforce title
 - [ ] tutorial (placeholder)
 - [ ] append files onchange
 - [ ] design (similar to mirror? or sth brutalist?)
 - [ ] all pins placeholder skeleton while loading
-- [ ] instant ux
+- [ ] instant ux https://consensys.net/blog/developers/how-to-fetch-and-update-data-from-ethereum-with-react-and-swr/
 - [ ] 404 page (redirect)
 - [ ] favicon
 - [ ] social share img
-- [ ] https://github.com/wooorm/lowlight
 - [ ] edit (fork) published pin
 - [ ] write readme
 - [ ] How to query user's pins?

@@ -1,11 +1,19 @@
 import { Web3Provider } from '@ethersproject/providers'
-import { EditorContent, Extension, useEditor } from '@tiptap/react'
+import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
+import {
+  EditorContent,
+  Extension,
+  ReactNodeViewRenderer,
+  useEditor,
+} from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
+import lowlight from 'lowlight'
 import { useRouter } from 'next/dist/client/router'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { Web3Storage } from 'web3.storage'
 import { baseUrl } from '../lib'
+import CodeBlock from './CodeBlock'
 
 export const CONTENT_FILE_NAME = 'content.html'
 export const SIGNATURE_FILE_NAME = 'signature.json'
@@ -28,7 +36,15 @@ interface Props {
 export default function Tiptap({ content = DEFAULT_CONTENT }: Props) {
   const router = useRouter()
   const editor = useEditor({
-    extensions: [StarterKit.configure({ dropcursor: false }), DisableModEnter],
+    extensions: [
+      StarterKit.configure({ dropcursor: false }),
+      DisableModEnter,
+      CodeBlockLowlight.extend({
+        addNodeView() {
+          return ReactNodeViewRenderer(CodeBlock)
+        },
+      }).configure({ lowlight }),
+    ],
     content,
     autofocus: false,
   })
