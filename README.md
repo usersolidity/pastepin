@@ -19,7 +19,7 @@
 - [x] add additional files
 - [x] sign/verify?
 - [x] https://github.com/wooorm/lowlight
-- [ ] 1st line enforce title
+- [x] 1st line enforce title
 - [ ] tutorial (placeholder)
 - [ ] append files onchange
 - [ ] design (similar to mirror? or sth brutalist?)

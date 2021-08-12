@@ -1,5 +1,6 @@
 import { Web3Provider } from '@ethersproject/providers'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
+import Document from '@tiptap/extension-document'
 import {
   EditorContent,
   Extension,
@@ -44,6 +45,10 @@ export default function Tiptap({ content = DEFAULT_CONTENT }: Props) {
           return ReactNodeViewRenderer(CodeBlock)
         },
       }).configure({ lowlight }),
+      // enforce <h1> as title
+      Document.extend({
+        content: 'heading block+',
+      }),
     ],
     content,
     autofocus: false,
@@ -115,26 +120,10 @@ export default function Tiptap({ content = DEFAULT_CONTENT }: Props) {
         e.preventDefault()
         e.stopPropagation()
         onSubmit(false)
-      } else if (
-        (e.key === 'Backspace' || e.key === 'ArrowUp') &&
-        editor &&
-        editor.isFocused
-      ) {
-        const head = editor.state.selection.$head
-        const anchor = editor.state.selection.$anchor
-        if (head.pos === 1 && anchor.pos === 1) {
-          e.preventDefault()
-          getTitle()?.focus()
-        }
       }
-      // focus downarrow
-      //  else if (getTitle()?.focu) {
-      // }
     },
-    [editor, onSubmit],
+    [onSubmit],
   )
-
-  console.log(editor?.state.selection)
 
   // add/remove keydown listener
   useEffect(() => {
@@ -178,17 +167,6 @@ export default function Tiptap({ content = DEFAULT_CONTENT }: Props) {
         {state === 'redirecting' && <button>Copy Url</button>}
       </div>
 
-      <input
-        id="title"
-        placeholder="Title"
-        onKeyDown={(e) => {
-          if (e.key === 'Enter' && !e.metaKey) {
-            e.preventDefault()
-            console.log('focusing')
-            editor?.commands.focus('end')
-          }
-        }}
-      />
       <EditorContent editor={editor} />
       <ul>{files}</ul>
     </section>
@@ -203,6 +181,3 @@ const DisableModEnter = Extension.create({
     }
   },
 })
-
-const getTitle = (): HTMLInputElement | undefined =>
-  document.querySelector('#title') as HTMLInputElement
