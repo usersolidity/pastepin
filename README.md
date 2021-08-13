@@ -35,3 +35,6 @@
 - [ ] deploy
 - [ ] write readme
 - [ ] How to query user's pins?
+- [ ] Made using footer
+- [ ] /pins page for all the pins
+- https://codemirror.net/6/

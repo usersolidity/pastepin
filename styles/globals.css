@@ -3,6 +3,13 @@ body {
   padding: 2rem;
 }
 
+nav {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 3rem;
+}
+
 .editor {
   position: relative;
 }
@@ -40,9 +47,10 @@ body {
 }
 
 .content {
-  min-height: 80vh;
+  min-height: 90vh;
   height: 100%;
   width: 100%;
   background-color: inherit;
   border: none;
+  resize: none;
 }

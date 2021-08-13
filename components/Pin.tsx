@@ -4,11 +4,13 @@ import React, { useCallback, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { Web3Storage } from 'web3.storage'
 import { baseUrl } from '../lib'
+import Markdown from './Markdown'
 
-export const METADATA_NAME = 'metadata.json'
+export const METADATA_FILENAME = 'pastebin.json'
 
-interface Pastepin {
-  fileName: string
+export interface Pastepin {
+  content: string
+  title?: string
   address?: string
   signature?: string
 }
@@ -22,9 +24,7 @@ interface Props {}
 export default function Pin({}: Props) {
   const router = useRouter()
   // turns false while publishing
-  const [state, setState] = useState<'editing' | 'publishing' | 'redirecting'>(
-    'editing',
-  )
+  const [state, setState] = useState<'edit' | 'preview' | 'publish'>('edit')
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
 
@@ -44,8 +44,7 @@ export default function Pin({}: Props) {
   const onSubmit = useCallback(
     async (sign: boolean) => {
       if (content.length <= 0) return
-      const fileName = `${title.length > 0 ? title : 'pastepin'}.html`
-      const pastepin: Pastepin = { fileName }
+      const pastepin: Pastepin = { content, title }
 
       if (sign) {
         const provider = new Web3Provider(window.ethereum)
@@ -58,8 +57,8 @@ export default function Pin({}: Props) {
       const blob = new Blob([JSON.stringify(pastepin)], {
         type: 'application/json',
       })
-      // todo: generate & append html
-      const files = [...acceptedFiles, new File([blob], METADATA_NAME)]
+
+      const files = [...acceptedFiles, new File([blob], METADATA_FILENAME)]
 
       // upload files using web3.storage
       console.log('storing', files)
@@ -78,56 +77,73 @@ export default function Pin({}: Props) {
   )
 
   return (
-    <section {...getRootProps()} className="editor">
+    <section
+      {...getRootProps()}
+      className="editor"
+      onKeyDown={(e) => {
+        // preview on `meta + enter`
+        if (state === 'edit' && e.metaKey && e.key === 'Enter') {
+          e.preventDefault()
+          setState('preview')
+        } // edit on `meta + e`
+        else if (state === 'preview' && e.metaKey && e.key === 'e') {
+          e.preventDefault()
+          setState('edit')
+        }
+      }}
+    >
       <input {...getInputProps()} />
       {isDragActive && <div>Come to papa</div>}
 
-      <input
-        className="title"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        placeholder="Title"
-      />
-      <textarea
-        className="content"
-        placeholder={CONTENT_PLACEHOLDER}
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
-        onKeyDown={(e) => {
-          // publish on meta + enter
-          if (e.metaKey && e.key === 'Enter') {
-            e.preventDefault()
-            e.stopPropagation()
-            onSubmit(false)
-          }
-        }}
-      />
+      {state === 'preview' && (
+        <button onClick={() => setState('edit')}>🖊 Edit</button>
+      )}
+
+      {state === 'edit' ? (
+        <textarea
+          className="content"
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          placeholder={CONTENT_PLACEHOLDER}
+        />
+      ) : (
+        <div onDoubleClick={() => setState('edit')}>
+          <Markdown>{content}</Markdown>
+        </div>
+      )}
 
       <div className="floating">
-        {state === 'editing' && (
+        {state === 'edit' && (
           <button
             onClick={() => {
-              setState('publishing')
+              setState('preview')
             }}
             className="button floating"
           >
             Preview
           </button>
         )}
-        {state === 'publishing' && (
-          <div className="floating">
+        {state === 'preview' && (
+          <>
+            <input
+              autoFocus
+              className="title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="Title"
+            />
             <button onClick={() => onSubmit(true)} className="publish">
               Sign using Ethereum
             </button>
             <button onClick={() => onSubmit(false)} className="publish">
               Publish Anonymously
             </button>
-          </div>
+          </>
         )}
-        {state === 'redirecting' && <button>Copy Url</button>}
+        {state === 'publish' && <button>Copy Url</button>}
       </div>
 
-      <ul>
+      <ul className="floating">
         {acceptedFiles.map((file, i) => (
           <li key={i}>
             {file.name} - {file.size} bytes — {file.lastModified} modified —{' '}

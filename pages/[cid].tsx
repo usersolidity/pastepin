@@ -2,15 +2,15 @@ import { GetStaticPaths, GetStaticProps } from 'next'
 import { useEffect, useState } from 'react'
 import { Web3File, Web3Storage } from 'web3.storage'
 import Status from '../components/Status'
-import Pin from '../components/Pin'
+import { METADATA_FILENAME, Pastepin } from '../components/Pin'
+import Markdown from '../components/Markdown'
 
 const client = new Web3Storage({
   token: process.env.NEXT_PUBLIC_WEB3_TOKEN as string,
 })
 
-interface Props {
+interface Props extends Pastepin {
   pinCid: string
-  content: string
 }
 
 export default function PinPage({ pinCid, content }: Props) {
@@ -21,7 +21,7 @@ export default function PinPage({ pinCid, content }: Props) {
       const res = await client.get(pinCid)
       if (!res) return
       const files = await res.files()
-      // setAttachments(files.filter((f) => f.name !== CONTENT_FILE_NAME))
+      setAttachments(files.filter((f) => f.name !== METADATA_FILENAME))
     }
     getAttachments()
   }, [pinCid])
@@ -31,7 +31,7 @@ export default function PinPage({ pinCid, content }: Props) {
   return (
     <main>
       <Status cid={pinCid} />
-      {/* <Pin  /> */}
+      <Markdown>{content}</Markdown>
     </main>
   )
 }
@@ -48,15 +48,16 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     const files = await res.files()
     console.log('Files:', files)
 
-    const file = files.find((file) => file.name == CONTENT_FILE_NAME)
+    const file = files.find((file) => file.name == METADATA_FILENAME)
     if (!file) throw new Error("Couldn't find the file")
 
-    const content = await file.text()
+    const raw = await file.text()
+    const pin: Pastepin = JSON.parse(raw)
 
     return {
       props: {
         pinCid: params.cid,
-        content,
+        ...pin,
       },
     }
   } catch (error) {
