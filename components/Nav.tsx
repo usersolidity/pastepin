@@ -1,17 +1,20 @@
 import Link from 'next/link'
 import React from 'react'
 
-interface Props {}
+interface Props {
+  title?: string
+}
 
-export default function Layout({}: Props) {
+export default function Layout({ title = 'Pastepin' }: Props) {
   return (
     <nav>
       <Link href="/">
         <a>
-          <h4>📌 Pastepin</h4>
+          <div className="logo">📌</div>
         </a>
       </Link>
-      <h5>Share content permissionlessly on IPFS</h5>
+      <h1>{title}</h1>
+      {/* <h5>Share content permissionlessly on IPFS</h5> */}
     </nav>
   )
 }

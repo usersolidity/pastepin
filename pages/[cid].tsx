@@ -1,9 +1,10 @@
 import { GetStaticPaths, GetStaticProps } from 'next'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Web3File, Web3Storage } from 'web3.storage'
-import Status from '../components/Status'
-import { METADATA_FILENAME, Pastepin } from '../components/Pin'
 import Markdown from '../components/Markdown'
+import Nav from '../components/Nav'
+import { METADATA_FILENAME, Pastepin } from '../components/Pin'
+import Status from '../components/Status'
 
 const client = new Web3Storage({
   token: process.env.NEXT_PUBLIC_WEB3_TOKEN as string,
@@ -13,7 +14,7 @@ interface Props extends Pastepin {
   pinCid: string
 }
 
-export default function PinPage({ pinCid, content }: Props) {
+export default function PinPage({ pinCid, content, title }: Props) {
   const [attachments, setAttachments] = useState<Web3File[] | null>(null)
 
   useEffect(() => {
@@ -29,10 +30,11 @@ export default function PinPage({ pinCid, content }: Props) {
   console.log('a', attachments)
 
   return (
-    <main>
+    <>
+      <Nav title={title} />
       <Status cid={pinCid} />
       <Markdown>{content}</Markdown>
-    </main>
+    </>
   )
 }
 
