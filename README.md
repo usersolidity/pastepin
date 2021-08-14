@@ -22,19 +22,20 @@
 - [x] 1st line enforce title
 - [x] append files onchange
 - [x] maybe just use textare as editor and store as markdown?
-- [ ] preview page
-- [ ] make [cid] work
+- [x] preview page
+- [x] make [cid] work
 - [ ] design (similar to mirror? or sth brutalist?)
-- [ ] files showcase (+ ability to remove)
-- [ ] tutorial (placeholder)
-- [ ] all pins placeholder skeleton while loading
 - [ ] instant ux https://consensys.net/blog/developers/how-to-fetch-and-update-data-from-ethereum-with-react-and-swr/
+- [ ] files showcase (+ ability to remove)
+- [ ] all pins placeholder skeleton while loading
+- [ ] tutorial (placeholder)
+- [ ] deploy
 - [ ] favicon
 - [ ] social share img
 - [ ] edit (fork) published pin
-- [ ] deploy
 - [ ] write readme
 - [ ] How to query user's pins?
 - [ ] Made using footer
 - [ ] /pins page for all the pins
 - https://codemirror.net/6/
+- [ ] make site accessible on ipfs

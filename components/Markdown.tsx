@@ -6,5 +6,9 @@ interface Props {
 }
 
 export default function Markdown({ children }: Props) {
-  return <ReactMarkdown className="content">{children}</ReactMarkdown>
+  return (
+    <article className="prose prose-sm sm:prose lg:prose-lg xl:prose-xl">
+      <ReactMarkdown>{children}</ReactMarkdown>
+    </article>
+  )
 }
