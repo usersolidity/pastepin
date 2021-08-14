@@ -24,18 +24,18 @@
 - [x] maybe just use textare as editor and store as markdown?
 - [x] preview page
 - [x] make [cid] work
-- [ ] design (similar to mirror? or sth brutalist?)
-- [ ] instant ux https://consensys.net/blog/developers/how-to-fetch-and-update-data-from-ethereum-with-react-and-swr/
-- [ ] files showcase (+ ability to remove)
-- [ ] all pins placeholder skeleton while loading
-- [ ] tutorial (placeholder)
-- [ ] deploy
+- [x] design (similar to mirror? or sth brutalist?)
 - [x] favicon
+- [x] files showcase (+ ability to remove)
+- [ ] instant ux https://consensys.net/blog/developers/how-to-fetch-and-update-data-from-ethereum-with-react-and-swr/
+- [ ] all pins placeholder skeleton while loading
+- [x] tutorial (placeholder)
+- [ ] deploy
 - [ ] social share img
 - [ ] edit (fork) published pin
 - [ ] write readme
 - [ ] How to query user's pins?
 - [ ] Made using footer
 - [ ] /pins page for all the pins
-- https://codemirror.net/6/
 - [ ] make site accessible on ipfs
+- [ ] query user's pins using subgraph?

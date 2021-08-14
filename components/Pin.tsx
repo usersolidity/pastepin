@@ -48,6 +48,7 @@ export default function Pin({}: Props) {
       const pastepin: Pastepin = { content, title }
 
       if (sign) {
+        // @ts-ignore
         const provider = new Web3Provider(window.ethereum)
         const signer = provider.getSigner()
         pastepin.signature = await signer.signMessage(content)
@@ -83,8 +84,6 @@ export default function Pin({}: Props) {
       className="relative h-screen"
       tabIndex={0} // make onKeyDown work
       onKeyDown={(e) => {
-        console.log({ state })
-
         // preview on `meta + enter`
         if (state === 'edit' && e.metaKey && e.key === 'Enter') {
           e.preventDefault()
@@ -97,84 +96,119 @@ export default function Pin({}: Props) {
       }}
     >
       <input {...getInputProps()} />
-      {isDragActive && <div>Come to papa</div>}
+      {isDragActive && (
+        <div className="fixed inset-0 w-full h-full bg-blue-100 border border-blue-400 overflow-hidden opacity-50" />
+      )}
 
-      {/* todo: if empty show help & recent posts */}
       {state === 'edit' ? (
         <textarea
-          className="w-full h-full resize-none outline-none center py-32 -mt-2" // -mt-2 fixing small overflow
+          className="w-full h-full resize-none outline-none center py-32 -mt-2 text-lg" // -mt-2 fixing small overflow
           value={content}
           onChange={(e) => setContent(e.target.value)}
           placeholder={CONTENT_PLACEHOLDER}
         />
       ) : (
-        <div onDoubleClick={() => setState('edit')}>
+        <div className="h-full" onDoubleClick={() => setState('edit')}>
           <Markdown>{content}</Markdown>
         </div>
       )}
 
-      <div className="absolute z-10 left-1/2 -translate-x-1/2 bottom-20">
-        {state === 'edit' && (
+      <div className="fixed z-10 left-1/2 -translate-x-1/2 bottom-20 flex justify-center flex-wrap">
+        <ul className="w-full h-full flex flex-wrap justify-center mb-3">
+          {acceptedFiles.map((file, i) => (
+            <li
+              key={i}
+              style={{ maxWidth: '169px' }}
+              className="group relative bg-gray-50 rounded-md px-2 py-1 h-full m-1 shadow-sm cursor-pointer"
+              onClick={() => {
+                setAcceptedFiles(acceptedFiles.filter((_, j) => i !== j))
+              }}
+            >
+              <div className="overflow-hidden whitespace-nowrap overflow-ellipsis text-xs text-gray-700 select-none">
+                {file.name}
+              </div>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="hidden group-hover:block h-5 w-5 absolute right-1 top-1/2 -translate-y-1/2 text-gray-600 bg-white"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </li>
+          ))}
+        </ul>
+
+        {state === 'edit' && content ? (
           <button
             onClick={() => {
               setState('preview')
             }}
-            className="rounded-2xl w-full sm:w-auto inline-flex items-center justify-center text-white font-semibold leading-none bg-blue-500 shadow-lg py-5 px-5"
+            className="rounded-2xl w-full sm:w-auto inline-flex items-center justify-center text-white font-semibold leading-none bg-blue-500 shadow-md py-5 px-7 select-none"
           >
             Preview
           </button>
-        )}
-        {state === 'preview' && (
-          <>
-            <div className="flex rounded-2xl overflow-hidden shadow-xl">
-              <button
-                onClick={() => setState('edit')}
-                className="w-full flex items-center justify-center text-gray-600 font-semibold leading-none bg-gray-100 py-5 px-6 outline-none"
-              >
-                Edit
-              </button>
-              <button
-                onClick={() => onSubmit(false)}
-                className="w-full inline-flex items-center justify-center text-blue-700 font-semibold leading-none bg-blue-200 py-5 px-4 outline-none"
-              >
-                Publish
-              </button>
-              <button
-                onClick={() => onSubmit(true)}
-                className="w-full inline-flex items-center justify-center text-yellow-700 font-semibold leading-none bg-yellow-200 py-5 px-6 outline-none"
-              >
-                Sign
-              </button>
+        ) : (
+          <section className="bg-white py-7 px-12 text-center space-y-6">
+            <div className="rounded-full bg-red-200 w-16 h-16 flex justify-center items-center text-3xl mx-auto">
+              📍
             </div>
-          </>
+            <h1 className="text-3xl font-bold">Decentralized Pastebin</h1>
+            <h2 className="text-2xl font-semibold text-gray-600">
+              Paste and share your content on IPFS
+            </h2>
+          </section>
         )}
+
+        {state === 'preview' && (
+          <div className="flex rounded-2xl overflow-hidden shadow-sm">
+            <button
+              onClick={() => setState('edit')}
+              className="w-full flex items-center justify-center text-gray-600 font-semibold leading-none bg-gray-100 py-5 px-7 outline-none select-none"
+            >
+              Edit
+            </button>
+            <button
+              onClick={() => onSubmit(false)}
+              className="w-full inline-flex items-center justify-center text-blue-700 font-semibold leading-none bg-blue-200 py-5 px-5 outline-none select-none"
+            >
+              Publish
+            </button>
+            <button
+              onClick={() => onSubmit(true)}
+              className="w-full inline-flex items-center justify-center text-yellow-700 font-semibold leading-none bg-yellow-200 py-5 px-7 outline-none select-none"
+            >
+              Sign
+            </button>
+          </div>
+        )}
+
         {state === 'publish' && <button>Copy Url</button>}
       </div>
-
-      <ul className="">
-        {acceptedFiles.map((file, i) => (
-          <li key={i} className="">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fillRule="evenodd"
-                d="M8 4a3 3 0 00-3 3v4a5 5 0 0010 0V7a1 1 0 112 0v4a7 7 0 11-14 0V7a5 5 0 0110 0v4a3 3 0 11-6 0V7a1 1 0 012 0v4a1 1 0 102 0V7a3 3 0 00-3-3z"
-                clipRule="evenodd"
-              />
-            </svg>
-            {file.name} - {file.size} bytes — {file.lastModified} modified —{' '}
-            {file.type} type
-          </li>
-        ))}
-      </ul>
     </section>
   )
 }
 
 const CONTENT_PLACEHOLDER = `\
-# Use markdown formatting
+# This is an <h1> tag
+## This is an <h2> tag
+
+*This text will be italic*
+**This text will be bold**
+
+* Item 1
+ * Item 2
+
+1. Item 1
+2. Item 2
+
+[Patepin](https://pastepin.xyz)
+
+As Grace Hopper said:
+> I’ve always been more interested
+> in the future than in the past.
 `
