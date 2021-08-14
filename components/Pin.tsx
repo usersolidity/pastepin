@@ -1,6 +1,6 @@
 import { Web3Provider } from '@ethersproject/providers'
 import { useRouter } from 'next/dist/client/router'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { Web3Storage } from 'web3.storage'
 import { baseUrl } from '../lib'
@@ -79,7 +79,7 @@ export default function Pin({}: Props) {
   return (
     <section
       {...getRootProps()}
-      className="editor"
+      className="relative h-screen overflow-hidden"
       onKeyDown={(e) => {
         // preview on `meta + enter`
         if (state === 'edit' && e.metaKey && e.key === 'Enter') {
@@ -99,9 +99,10 @@ export default function Pin({}: Props) {
         <button onClick={() => setState('edit')}>🖊 Edit</button>
       )}
 
+      {/* todo: if empty show posts */}
       {state === 'edit' ? (
         <textarea
-          className="content"
+          className="w-full h-full resize-none outline-none center pt-32"
           value={content}
           onChange={(e) => setContent(e.target.value)}
           placeholder={CONTENT_PLACEHOLDER}
@@ -112,13 +113,13 @@ export default function Pin({}: Props) {
         </div>
       )}
 
-      <div className="floating">
+      <div className="absolute z-10 left-1/2 -translate-x-1/2 bottom-7">
         {state === 'edit' && (
           <button
             onClick={() => {
               setState('preview')
             }}
-            className="button floating"
+            className="button"
           >
             Preview
           </button>
@@ -127,7 +128,7 @@ export default function Pin({}: Props) {
           <>
             <input
               autoFocus
-              className="title"
+              className="block text-2xl font-bold outline-none"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Title"
@@ -143,9 +144,21 @@ export default function Pin({}: Props) {
         {state === 'publish' && <button>Copy Url</button>}
       </div>
 
-      <ul className="floating">
+      <ul className="">
         {acceptedFiles.map((file, i) => (
-          <li key={i}>
+          <li key={i} className="">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fillRule="evenodd"
+                d="M8 4a3 3 0 00-3 3v4a5 5 0 0010 0V7a1 1 0 112 0v4a7 7 0 11-14 0V7a5 5 0 0110 0v4a3 3 0 11-6 0V7a1 1 0 012 0v4a1 1 0 102 0V7a3 3 0 00-3-3z"
+                clipRule="evenodd"
+              />
+            </svg>
             {file.name} - {file.size} bytes — {file.lastModified} modified —{' '}
             {file.type} type
           </li>

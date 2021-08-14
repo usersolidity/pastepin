@@ -8,7 +8,7 @@ export default function IndexPage() {
     <>
       <Nav />
       <Tiptap />
-      <List />
+      {/* <List /> */}
     </>
   )
 }
