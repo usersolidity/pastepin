@@ -1,9 +1,11 @@
 import { Web3Provider } from '@ethersproject/providers'
+import { useAtom } from 'jotai'
 import { useRouter } from 'next/dist/client/router'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { Web3Storage } from 'web3.storage'
-import { baseUrl } from '../lib'
+import { stateAtom, titleAtom } from '../lib/atoms'
+import { baseUrl } from '../lib/utils'
 import Markdown from './Markdown'
 
 export const METADATA_FILENAME = 'pastebin.json'
@@ -23,9 +25,8 @@ interface Props {}
 
 export default function Pin({}: Props) {
   const router = useRouter()
-  // turns false while publishing
-  const [state, setState] = useState<'edit' | 'preview' | 'publish'>('edit')
-  const [title, setTitle] = useState('')
+  const [state, setState] = useAtom(stateAtom)
+  const [title] = useAtom(titleAtom)
   const [content, setContent] = useState('')
 
   // react-dropzone
@@ -79,8 +80,11 @@ export default function Pin({}: Props) {
   return (
     <section
       {...getRootProps()}
-      className="relative h-screen overflow-hidden"
+      className="relative h-screen"
+      tabIndex={0} // make onKeyDown work
       onKeyDown={(e) => {
+        console.log({ state })
+
         // preview on `meta + enter`
         if (state === 'edit' && e.metaKey && e.key === 'Enter') {
           e.preventDefault()
@@ -95,14 +99,10 @@ export default function Pin({}: Props) {
       <input {...getInputProps()} />
       {isDragActive && <div>Come to papa</div>}
 
-      {state === 'preview' && (
-        <button onClick={() => setState('edit')}>🖊 Edit</button>
-      )}
-
-      {/* todo: if empty show posts */}
+      {/* todo: if empty show help & recent posts */}
       {state === 'edit' ? (
         <textarea
-          className="w-full h-full resize-none outline-none center pt-32"
+          className="w-full h-full resize-none outline-none center py-32 -mt-2" // -mt-2 fixing small overflow
           value={content}
           onChange={(e) => setContent(e.target.value)}
           placeholder={CONTENT_PLACEHOLDER}
@@ -113,32 +113,39 @@ export default function Pin({}: Props) {
         </div>
       )}
 
-      <div className="absolute z-10 left-1/2 -translate-x-1/2 bottom-7">
+      <div className="absolute z-10 left-1/2 -translate-x-1/2 bottom-20">
         {state === 'edit' && (
           <button
             onClick={() => {
               setState('preview')
             }}
-            className="button"
+            className="rounded-2xl w-full sm:w-auto inline-flex items-center justify-center text-white font-semibold leading-none bg-blue-500 shadow-lg py-5 px-5"
           >
             Preview
           </button>
         )}
         {state === 'preview' && (
           <>
-            <input
-              autoFocus
-              className="block text-2xl font-bold outline-none"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder="Title"
-            />
-            <button onClick={() => onSubmit(true)} className="publish">
-              Sign using Ethereum
-            </button>
-            <button onClick={() => onSubmit(false)} className="publish">
-              Publish Anonymously
-            </button>
+            <div className="flex rounded-2xl overflow-hidden shadow-xl">
+              <button
+                onClick={() => setState('edit')}
+                className="w-full flex items-center justify-center text-gray-600 font-semibold leading-none bg-gray-100 py-5 px-6 outline-none"
+              >
+                Edit
+              </button>
+              <button
+                onClick={() => onSubmit(false)}
+                className="w-full inline-flex items-center justify-center text-blue-700 font-semibold leading-none bg-blue-200 py-5 px-4 outline-none"
+              >
+                Publish
+              </button>
+              <button
+                onClick={() => onSubmit(true)}
+                className="w-full inline-flex items-center justify-center text-yellow-700 font-semibold leading-none bg-yellow-200 py-5 px-6 outline-none"
+              >
+                Sign
+              </button>
+            </div>
           </>
         )}
         {state === 'publish' && <button>Copy Url</button>}

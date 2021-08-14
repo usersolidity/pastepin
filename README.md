@@ -30,7 +30,7 @@
 - [ ] all pins placeholder skeleton while loading
 - [ ] tutorial (placeholder)
 - [ ] deploy
-- [ ] favicon
+- [x] favicon
 - [ ] social share img
 - [ ] edit (fork) published pin
 - [ ] write readme

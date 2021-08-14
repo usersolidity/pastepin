@@ -8,6 +8,7 @@ export default function IndexPage() {
     <>
       <Nav />
       <Tiptap />
+      {/* <h5>Share content permissionlessly on IPFS</h5> */}
       {/* <List /> */}
     </>
   )

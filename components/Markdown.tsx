@@ -7,8 +7,10 @@ interface Props {
 
 export default function Markdown({ children }: Props) {
   return (
-    <article className="prose prose-sm sm:prose lg:prose-lg xl:prose-xl">
-      <ReactMarkdown>{children}</ReactMarkdown>
+    <article className="center py-32">
+      <ReactMarkdown className="prose prose-sm sm:prose lg:prose-lg xl:prose-xl">
+        {children}
+      </ReactMarkdown>
     </article>
   )
 }
