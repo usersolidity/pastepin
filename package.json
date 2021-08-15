@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@badrap/bar-of-progress": "^0.1.2",
     "@tailwindcss/typography": "^0.4.1",
     "date-fns": "^2.23.0",
     "ethers": "^5.4.4",

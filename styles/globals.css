@@ -36,5 +36,9 @@ body {
 }
 
 ::selection {
-  @apply bg-red-100;
+  @apply bg-blue-100;
+}
+
+.bar-of-progress {
+  z-index: 50;
 }

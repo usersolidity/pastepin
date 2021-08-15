@@ -29,6 +29,7 @@ export default function Pin({}: Props) {
   const [state, setState] = useAtom(stateAtom)
   const [title] = useAtom(titleAtom)
   const [content, setContent] = useState('')
+  const [redirectText, setRedirectText] = useState('')
 
   // react-dropzone
   const [acceptedFiles, setAcceptedFiles] = useState<File[]>([])
@@ -70,20 +71,21 @@ export default function Pin({}: Props) {
 
       const files = [...acceptedFiles, new File([blob], METADATA_FILENAME)]
 
+      // hides floating buttons
+      setState('redirect')
+
       // upload files using web3.storage
       console.log('storing', files)
       const cid = await client.put(files)
 
       const path = `/${cid}`
       console.log('stored', baseUrl + path)
-
-      // copy link to clipboard
-      await navigator.clipboard.writeText(baseUrl + path)
+      setRedirectText(baseUrl + path)
 
       // redirect to pin /[pin].tsx (takes a while)
       router.push(path)
     },
-    [acceptedFiles, content, router, title],
+    [acceptedFiles, content, router, setState, title],
   )
 
   return (
@@ -162,7 +164,7 @@ export default function Pin({}: Props) {
               Preview
             </button>
           ) : (
-            <section className="bg-white py-7 px-12 text-center space-y-6">
+            <section className="bg-white py-10 px-16 text-center space-y-6 rounded-2xl shadow-xl translate-y-16">
               <div className="rounded-full bg-red-200 w-16 h-16 flex justify-center items-center text-3xl mx-auto select-none">
                 📍
               </div>
@@ -196,7 +198,26 @@ export default function Pin({}: Props) {
           </div>
         )}
 
-        {state === 'publish' && <button>Copy Url</button>}
+        {state === 'redirect' && redirectText && (
+          <div className="relative bg-blue-50 rounded-2xl shadow-md p-3 text-blue-800 text-opacity-50 max-w-xs overflow-hidden whitespace-nowrap overflow-ellipsis text-sm font-semibold">
+            {redirectText}
+            {redirectText !== 'Copied!' && (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-7 w-7 absolute right-3 top-1/2 -translate-y-1/2 bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-800 p-1 rounded-full cursor-pointer transition"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                onClick={async () => {
+                  await navigator.clipboard.writeText(redirectText)
+                  setRedirectText('Copied!')
+                }}
+              >
+                <path d="M7 9a2 2 0 012-2h6a2 2 0 012 2v6a2 2 0 01-2 2H9a2 2 0 01-2-2V9z" />
+                <path d="M5 3a2 2 0 00-2 2v6a2 2 0 002 2V5h8a2 2 0 00-2-2H5z" />
+              </svg>
+            )}
+          </div>
+        )}
       </div>
     </section>
   )
@@ -206,18 +227,20 @@ const CONTENT_PLACEHOLDER = `\
 # Heading 1
 ## Heading 2
 
-*Italic*
-**Bold**
+*Italic* & **Bold**
+
+\`\`\`js
+console.log('Hello world')
+\`\`\`
+
+[Pastepin](https://pastepin.xyz)
+
+As Grace Hopper said:
+> I’ve always been more interested
 
 - Item 1
  - Item 2
 
 1. Item 1
 2. Item 2
-
-[Pastepin](https://pastepin.xyz)
-
-As Grace Hopper said:
-> I’ve always been more interested
-> in the future than in the past.
 `

@@ -39,7 +39,7 @@
 - [ ] make site accessible on ipfs
 - [ ] query user's pins using subgraph?
 - improve 404
-- loading indicator after publish
+- [x] loading indicator after publish
 - title input make shortcut work
 - refactor components
 - animations
