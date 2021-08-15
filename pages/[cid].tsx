@@ -1,5 +1,6 @@
 import { saveAs } from 'file-saver'
 import { GetStaticPaths, GetStaticProps } from 'next'
+import Head from 'next/head'
 import React, { useEffect, useState } from 'react'
 import { Web3File, Web3Storage } from 'web3.storage'
 import Markdown from '../components/Markdown'
@@ -33,6 +34,10 @@ export default function PinPage(props: Props) {
 
   return (
     <>
+      <Head>
+        <title>{title}</title>
+        <meta name="description" content={content.substring(155)} />
+      </Head>
       <Nav title={title} />
       <Status {...props} />
       <Markdown>{content}</Markdown>

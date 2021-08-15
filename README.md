@@ -1,13 +1,3 @@
-# Names
-
-- **pastepin.xyz** (https://www.namecheap.com/domains/registration/results/?domain=pastepin.xyz)
-- pastepin.io
-- pastepin.co
-- pasta.storage
-- pasta.store
-- copypasta
-- pin.store
-
 # Todos
 
 - [x] look at existing pastebins for features
@@ -31,17 +21,21 @@
 - [x] /[cid]
 - [x] deploy
 - [x] show files on cid
-- [ ] all pins placeholder skeleton while loading
-- [ ] /pins page for all the pins
-- [ ] social share img
-- [ ] write readme
-- [ ] Made using footer
-- [ ] make site accessible on ipfs
-- [ ] query user's pins using subgraph?
-- improve 404
+- [x] Made using footer
 - [x] loading indicator after publish
+- [x] attachment button
+- [x] list shortcuts
+- [ ] make site accessible on ipfs
+- [ ] improve 404
+- [ ] https://freecodetools.org/ogp/
+- [ ] write readme
 - title input make shortcut work
 - refactor components
 - animations
-- [x] attachment button
-- list shortcuts
+
+# Future
+
+- enrypted content
+- query user's pins using subgraph
+- /pins page for all the pins
+- improve markdown render (styles, syntax highlighting)

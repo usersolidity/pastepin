@@ -102,7 +102,7 @@ export default function Status({ cid, content, signature, address }: Props) {
           )}
           <div
             onClick={() => setDetails(!details)}
-            className="underline text-blue-700 cursor-pointer"
+            className="underline text-gray-500 cursor-pointer"
           >
             {details ? 'Less' : 'More'}
           </div>
