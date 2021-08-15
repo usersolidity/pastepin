@@ -1,8 +1,7 @@
-import { useRouter } from 'next/router'
+import Link from 'next/link'
 import React from 'react'
 
 export default function IndexPage() {
-  const router = useRouter()
   return (
     <section className="py-20 px-4 md:px-16 text-center space-y-8">
       <div className="rounded-full bg-red-200 w-16 h-16 flex justify-center items-center text-3xl mx-auto select-none">
@@ -15,12 +14,11 @@ export default function IndexPage() {
       <p className="text-gray-400 text-sm">
         *everyone with a link will be able to see your post
       </p>
-      <button
-        onClick={() => router.push('/new')}
-        className="shadow-md rounded-2xl bg-blue-500 text-white font-semibold leading-none py-5 px-5 outline-none select-none"
-      >
-        Start
-      </button>
+      <Link href="/new">
+        <a className="inline-block shadow-md rounded-2xl bg-blue-500 text-white font-semibold leading-none py-5 px-5 outline-none select-none">
+          Start
+        </a>
+      </Link>
       <div className="flex">
         <div className="grid grid-cols-2 mx-auto mt-5 gap-8">
           <div className="w-40 h-40 md:w-48 md:h-48 p-5 bg-purple-100 text-purple-900 text-opacity-75 rounded-3xl text-md md:text-xl font-semibold flex flex-col justify-around items-center">

@@ -70,17 +70,17 @@ export default function Pin({}: Props) {
       })
 
       const files = [...acceptedFiles, new File([blob], METADATA_FILENAME)]
+      console.log('storing', files)
 
-      // hides floating buttons
-      setState('redirect')
+      setState('upload')
 
       // upload files using web3.storage
-      console.log('storing', files)
       const cid = await client.put(files)
 
       const path = `/${cid}`
-      console.log('stored', baseUrl + path)
+      setState('redirect')
       setRedirectText(baseUrl + path)
+      console.log('stored', baseUrl + path)
 
       // redirect to pin /[pin].tsx (takes a while)
       router.push(path)
@@ -112,6 +112,7 @@ export default function Pin({}: Props) {
 
       {state === 'edit' ? (
         <textarea
+          autoFocus
           className="w-full h-full resize-none outline-none center py-32 -mt-2 text-lg" // -mt-2 fixing small overflow
           value={content}
           onChange={(e) => setContent(e.target.value)}
@@ -204,6 +205,29 @@ export default function Pin({}: Props) {
               Sign
             </button>
           </div>
+        )}
+
+        {state === 'upload' && (
+          <svg
+            className="block animate-spin mr-3 h-6 w-6 text-blue-500"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              className="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              strokeWidth="4"
+            ></circle>
+            <path
+              className="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+            ></path>
+          </svg>
         )}
 
         {state === 'redirect' && redirectText && (

@@ -31,7 +31,6 @@
 - [ ] write readme
 - title input make shortcut work
 - refactor components
-- animations
 
 # Future
 
