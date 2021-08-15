@@ -37,7 +37,7 @@ export default function Pin({}: Props) {
     // @ts-ignore
     setAcceptedFiles((prev) => [...prev, ...acceptedFiles])
   }, [])
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+  const { getRootProps, getInputProps, isDragActive, open } = useDropzone({
     noClick: true,
     noKeyboard: true,
     onDrop,
@@ -155,14 +155,33 @@ export default function Pin({}: Props) {
 
         {state === 'edit' &&
           (content ? (
-            <button
-              onClick={() => {
-                setState('preview')
-              }}
-              className="rounded-2xl w-full sm:w-auto inline-flex items-center justify-center text-white font-semibold leading-none bg-blue-500 shadow-md py-5 px-7 select-none"
-            >
-              Preview
-            </button>
+            <div className="shadow-md rounded-2xl bg-blue-500 text-white flex">
+              <div
+                className="px-5 cursor-pointer h-full w-full flex items-center justify-center"
+                onClick={open}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M8 4a3 3 0 00-3 3v4a5 5 0 0010 0V7a1 1 0 112 0v4a7 7 0 11-14 0V7a5 5 0 0110 0v4a3 3 0 11-6 0V7a1 1 0 012 0v4a1 1 0 102 0V7a3 3 0 00-3-3z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </div>
+              <button
+                onClick={() => {
+                  setState('preview')
+                }}
+                className="flex items-center justify-center font-semibold leading-none py-5 px-7 select-none border-l border-blue-600"
+              >
+                Preview
+              </button>
+            </div>
           ) : (
             <section className="bg-white py-10 px-16 text-center space-y-6 rounded-2xl shadow-xl translate-y-16">
               <div className="rounded-full bg-red-200 w-16 h-16 flex justify-center items-center text-3xl mx-auto select-none">

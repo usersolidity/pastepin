@@ -43,3 +43,5 @@
 - title input make shortcut work
 - refactor components
 - animations
+- [x] attachment button
+- list shortcuts
