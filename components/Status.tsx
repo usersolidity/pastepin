@@ -62,7 +62,7 @@ export default function Status({ cid, content, signature, address }: Props) {
               />
             </svg>
           )}
-          <span className="font-mono ml-1 text-sm text-gray-700">
+          <span className="font-mono ml-1 text-sm text-gray-700 mt-px">
             {address}
           </span>
         </div>

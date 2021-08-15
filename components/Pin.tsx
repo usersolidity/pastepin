@@ -4,6 +4,7 @@ import { useRouter } from 'next/dist/client/router'
 import React, { useCallback, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { Web3Storage } from 'web3.storage'
+import Web3Modal from 'web3modal'
 import { stateAtom, titleAtom } from '../lib/atoms'
 import { baseUrl } from '../lib/utils'
 import Markdown from './Markdown'
@@ -44,12 +45,19 @@ export default function Pin({}: Props) {
   // publish
   const onSubmit = useCallback(
     async (sign: boolean) => {
+      console.log('submiting')
       if (content.length <= 0) return
       const pastepin: Pastepin = { content, title }
 
       if (sign) {
-        // @ts-ignore
-        const provider = new Web3Provider(window.ethereum)
+        const web3Modal = new Web3Modal({
+          network: 'mainnet', // optional
+          cacheProvider: true, // optional
+          providerOptions: {},
+        })
+
+        const web3Provider = await web3Modal.connect()
+        const provider = new Web3Provider(web3Provider)
         const signer = provider.getSigner()
         pastepin.signature = await signer.signMessage(content)
         pastepin.address = await signer.getAddress()
@@ -85,11 +93,11 @@ export default function Pin({}: Props) {
       tabIndex={0} // make onKeyDown work
       onKeyDown={(e) => {
         // preview on `meta + enter`
-        if (state === 'edit' && e.metaKey && e.key === 'Enter') {
+        if (state === 'edit' && e.metaKey && e.key === '/') {
           e.preventDefault()
           setState('preview')
         } // edit on `meta + e`
-        else if (state === 'preview' && e.metaKey && e.key === 'e') {
+        else if (state === 'preview' && e.metaKey && e.key === '/') {
           e.preventDefault()
           setState('edit')
         }

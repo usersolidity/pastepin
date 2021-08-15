@@ -28,6 +28,7 @@
 - [x] favicon
 - [x] files showcase (+ ability to remove)
 - [ ] instant ux https://consensys.net/blog/developers/how-to-fetch-and-update-data-from-ethereum-with-react-and-swr/
+- [ ] show files on cid
 - [x] tutorial (placeholder)
 - [x] /[cid]
 - [ ] deploy
