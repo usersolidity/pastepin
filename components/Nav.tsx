@@ -31,7 +31,7 @@ export default function Nav({ title: readOnlyTitle }: Props) {
         {(state === 'preview' || title.length) && !readOnlyTitle ? (
           <input
             id="title"
-            className="text-2xl font-semibold text-gray-800 outline-none bg-transparent"
+            className="w-full text-2xl font-semibold text-gray-800 outline-none bg-transparent"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="Title"

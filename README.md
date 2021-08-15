@@ -25,15 +25,15 @@
 - [x] loading indicator after publish
 - [x] attachment button
 - [x] list shortcuts
-- [ ] make site accessible on ipfs
-- [ ] improve 404
+- [x] improve 404
+- [x] title input make shortcut work
 - [ ] https://freecodetools.org/ogp/
-- [ ] write readme
-- title input make shortcut work
 - refactor components
+- [ ] write readme
 
 # Future
 
+- make site accessible on ipfs
 - enrypted content
 - query user's pins using subgraph
 - /pins page for all the pins

@@ -3,6 +3,7 @@ import { useAtom } from 'jotai'
 import { useRouter } from 'next/dist/client/router'
 import React, { useCallback, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
+import { useHotkeys } from 'react-hotkeys-hook'
 import { Web3Storage } from 'web3.storage'
 import Web3Modal from 'web3modal'
 import { stateAtom, titleAtom } from '../lib/atoms'
@@ -88,23 +89,26 @@ export default function Pin({}: Props) {
     [acceptedFiles, content, router, setState, title],
   )
 
+  // toggle edit/preview
+  useHotkeys(
+    'command+/,ctrl+enter',
+    () =>
+      setState((s) =>
+        s === 'edit' ? 'preview' : s === 'preview' ? 'edit' : s,
+      ),
+    {
+      enableOnTags: ['INPUT', 'TEXTAREA'],
+    },
+  )
+  // publish anonymously on mod enter
+  useHotkeys('command+enter,ctrl+enter', () => onSubmit(false) as any, {
+    enableOnTags: ['INPUT', 'TEXTAREA'],
+    enableOnContentEditable: true,
+    enabled: state === 'edit' || state === 'preview',
+  })
+
   return (
-    <section
-      {...getRootProps()}
-      className="relative h-screen"
-      tabIndex={0} // make onKeyDown work
-      onKeyDown={(e) => {
-        // preview on `meta + enter`
-        if (state === 'edit' && e.metaKey && e.key === '/') {
-          e.preventDefault()
-          setState('preview')
-        } // edit on `meta + e`
-        else if (state === 'preview' && e.metaKey && e.key === '/') {
-          e.preventDefault()
-          setState('edit')
-        }
-      }}
-    >
+    <section {...getRootProps()} className="relative h-screen">
       <input {...getInputProps()} />
       {isDragActive && (
         <div className="fixed inset-0 w-full h-full bg-blue-100 border border-blue-400 overflow-hidden opacity-50" />
