@@ -143,26 +143,27 @@ export default function Pin({}: Props) {
           ))}
         </ul>
 
-        {state === 'edit' && content ? (
-          <button
-            onClick={() => {
-              setState('preview')
-            }}
-            className="rounded-2xl w-full sm:w-auto inline-flex items-center justify-center text-white font-semibold leading-none bg-blue-500 shadow-md py-5 px-7 select-none"
-          >
-            Preview
-          </button>
-        ) : (
-          <section className="bg-white py-7 px-12 text-center space-y-6">
-            <div className="rounded-full bg-red-200 w-16 h-16 flex justify-center items-center text-3xl mx-auto">
-              📍
-            </div>
-            <h1 className="text-3xl font-bold">Decentralized Pastebin</h1>
-            <h2 className="text-2xl font-semibold text-gray-600">
-              Paste and share your content on IPFS
-            </h2>
-          </section>
-        )}
+        {state === 'edit' &&
+          (content ? (
+            <button
+              onClick={() => {
+                setState('preview')
+              }}
+              className="rounded-2xl w-full sm:w-auto inline-flex items-center justify-center text-white font-semibold leading-none bg-blue-500 shadow-md py-5 px-7 select-none"
+            >
+              Preview
+            </button>
+          ) : (
+            <section className="bg-white py-7 px-12 text-center space-y-6">
+              <div className="rounded-full bg-red-200 w-16 h-16 flex justify-center items-center text-3xl mx-auto select-none">
+                📍
+              </div>
+              <h1 className="text-3xl font-bold">Decentralized Pastebin</h1>
+              <h2 className="text-2xl font-semibold text-gray-600">
+                Paste and share your content on IPFS
+              </h2>
+            </section>
+          ))}
 
         {state === 'preview' && (
           <div className="flex rounded-2xl overflow-hidden shadow-sm">
@@ -194,19 +195,19 @@ export default function Pin({}: Props) {
 }
 
 const CONTENT_PLACEHOLDER = `\
-# This is an <h1> tag
-## This is an <h2> tag
+# Heading 1
+## Heading 2
 
-*This text will be italic*
-**This text will be bold**
+*Italic*
+**Bold**
 
-* Item 1
- * Item 2
+- Item 1
+ - Item 2
 
 1. Item 1
 2. Item 2
 
-[Patepin](https://pastepin.xyz)
+[Pastepin](https://pastepin.xyz)
 
 As Grace Hopper said:
 > I’ve always been more interested

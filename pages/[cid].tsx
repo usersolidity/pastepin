@@ -11,28 +11,29 @@ const client = new Web3Storage({
 })
 
 interface Props extends Pastepin {
-  pinCid: string
+  cid: string // pin cid (not pastepin.json's)
 }
 
-export default function PinPage({ pinCid, content, title }: Props) {
+export default function PinPage(props: Props) {
+  const { cid, title, content } = props
   const [attachments, setAttachments] = useState<Web3File[] | null>(null)
 
   useEffect(() => {
     const getAttachments = async () => {
-      const res = await client.get(pinCid)
+      const res = await client.get(cid)
       if (!res) return
       const files = await res.files()
       setAttachments(files.filter((f) => f.name !== METADATA_FILENAME))
     }
     getAttachments()
-  }, [pinCid])
+  }, [cid])
 
   console.log('a', attachments)
 
   return (
     <>
       <Nav title={title} />
-      <Status cid={pinCid} />
+      <Status {...props} />
       <Markdown>{content}</Markdown>
     </>
   )
@@ -58,7 +59,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
     return {
       props: {
-        pinCid: params.cid,
+        cid: params.cid,
         ...pin,
       },
     }

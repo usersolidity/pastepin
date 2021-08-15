@@ -34,3 +34,7 @@ body {
     padding-right: 25%;
   }
 }
+
+::selection {
+  @apply bg-red-100;
+}

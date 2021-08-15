@@ -28,14 +28,13 @@
 - [x] favicon
 - [x] files showcase (+ ability to remove)
 - [ ] instant ux https://consensys.net/blog/developers/how-to-fetch-and-update-data-from-ethereum-with-react-and-swr/
-- [ ] all pins placeholder skeleton while loading
 - [x] tutorial (placeholder)
+- [x] /[cid]
 - [ ] deploy
 - [ ] social share img
-- [ ] edit (fork) published pin
 - [ ] write readme
-- [ ] How to query user's pins?
 - [ ] Made using footer
+- [ ] all pins placeholder skeleton while loading
 - [ ] /pins page for all the pins
 - [ ] make site accessible on ipfs
 - [ ] query user's pins using subgraph?
