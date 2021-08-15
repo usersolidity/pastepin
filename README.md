@@ -27,15 +27,19 @@
 - [x] design (similar to mirror? or sth brutalist?)
 - [x] favicon
 - [x] files showcase (+ ability to remove)
-- [ ] instant ux https://consensys.net/blog/developers/how-to-fetch-and-update-data-from-ethereum-with-react-and-swr/
-- [ ] show files on cid
 - [x] tutorial (placeholder)
 - [x] /[cid]
-- [ ] deploy
+- [x] deploy
+- [x] show files on cid
+- [ ] all pins placeholder skeleton while loading
+- [ ] /pins page for all the pins
 - [ ] social share img
 - [ ] write readme
 - [ ] Made using footer
-- [ ] all pins placeholder skeleton while loading
-- [ ] /pins page for all the pins
 - [ ] make site accessible on ipfs
 - [ ] query user's pins using subgraph?
+- improve 404
+- loading indicator after publish
+- title input make shortcut work
+- refactor components
+- animations

@@ -9,7 +9,7 @@ import { stateAtom, titleAtom } from '../lib/atoms'
 import { baseUrl } from '../lib/utils'
 import Markdown from './Markdown'
 
-export const METADATA_FILENAME = 'pastebin.json'
+export const METADATA_FILENAME = 'pastepin.json'
 
 export interface Pastepin {
   content: string

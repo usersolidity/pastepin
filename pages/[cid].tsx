@@ -1,3 +1,4 @@
+import { saveAs } from 'file-saver'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import React, { useEffect, useState } from 'react'
 import { Web3File, Web3Storage } from 'web3.storage'
@@ -16,25 +17,56 @@ interface Props extends Pastepin {
 
 export default function PinPage(props: Props) {
   const { cid, title, content } = props
-  const [attachments, setAttachments] = useState<Web3File[] | null>(null)
+  const [files, setFiles] = useState<Web3File[] | null>(null)
 
   useEffect(() => {
-    const getAttachments = async () => {
+    const getFiles = async () => {
       const res = await client.get(cid)
       if (!res) return
       const files = await res.files()
-      setAttachments(files.filter((f) => f.name !== METADATA_FILENAME))
+      setFiles(files.filter((f) => f.name !== METADATA_FILENAME))
     }
-    getAttachments()
+    getFiles()
   }, [cid])
 
-  console.log('a', attachments)
+  console.log({ files })
 
   return (
     <>
       <Nav title={title} />
       <Status {...props} />
       <Markdown>{content}</Markdown>
+      <div className="fixed z-10 left-1/2 -translate-x-1/2 bottom-20 flex justify-center flex-wrap">
+        <ul className="w-full h-full flex flex-wrap justify-center mb-3">
+          {files &&
+            files.map((file, i) => (
+              <li
+                key={i}
+                style={{ maxWidth: '169px' }}
+                className="group relative bg-gray-50 rounded-md px-2 py-1 h-full m-1 shadow-sm cursor-pointer"
+                onClick={() => {
+                  saveAs(file)
+                }}
+              >
+                <div className="overflow-hidden whitespace-nowrap overflow-ellipsis text-xs text-gray-700 select-none">
+                  {file.name}
+                </div>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="hidden group-hover:block h-5 w-5 absolute right-1 top-1/2 -translate-y-1/2 text-gray-600 bg-white"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v3.586L7.707 9.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 10.586V7z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </li>
+            ))}
+        </ul>
+      </div>
     </>
   )
 }
