@@ -4,16 +4,32 @@ import React from 'react'
 export default function IndexPage() {
   return (
     <section className="py-20 px-4 md:px-16 text-center space-y-8">
+      <h1 className="text-7xl font-bold">Pastepin</h1>
       <div className="rounded-full bg-red-200 w-16 h-16 flex justify-center items-center text-3xl mx-auto select-none">
         📍
       </div>
-      <h1 className="text-4xl font-bold">Decentralized Pastebin</h1>
+      <h1 className="text-4xl font-bold text-gray-800">
+        Decentralized Pastebin
+      </h1>
       <h2 className="text-2xl font-semibold text-gray-600">
-        Share text and files on the IPFS network
+        Share Text and Files on a Decentralized Network
       </h2>
-      <p className="text-gray-400 text-sm">
-        *everyone with a link will be able to see your post
-      </p>
+      <div>
+        <p className="text-gray-400 text-sm">
+          *your data will be stored on the{' '}
+          <a
+            href="https://ipfs.io/"
+            target="_blank"
+            rel="noreferrer"
+            className="underline text-gray-500"
+          >
+            IPFS network
+          </a>
+        </p>
+        <p className="text-gray-400 text-sm">
+          **everyone with a link will be able to see your post
+        </p>
+      </div>
       <Link href="/new">
         <a className="inline-block shadow-md rounded-2xl bg-blue-500 text-white font-semibold leading-none py-5 px-5 outline-none select-none">
           Start
